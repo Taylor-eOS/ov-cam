@@ -14,6 +14,7 @@ void setup() {
         Serial.println("No PSRAM detected - camera will likely fail.");
     }
     Serial.printf("Internal heap: %d bytes free\n", ESP.getFreeHeap());
+
     camera_config_t config;
     config.ledc_channel = LEDC_CHANNEL_0;
     config.ledc_timer = LEDC_TIMER_0;
@@ -35,10 +36,11 @@ void setup() {
     config.pin_reset = -1;
     config.xclk_freq_hz = 20000000;
     config.pixel_format = PIXFORMAT_JPEG;
-    config.frame_size = FRAMESIZE_QQVGA;
+    config.frame_size = FRAMESIZE_VGA;
     config.jpeg_quality = 12;
-    config.fb_count = 1;
-    config.fb_location = CAMERA_FB_IN_DRAM;
+    config.fb_count = 2;
+    config.fb_location = CAMERA_FB_IN_PSRAM;
+
     esp_err_t err = esp_camera_init(&config);
     if (err != ESP_OK) {
         Serial.printf("Camera init failed with error 0x%x\n", err);
